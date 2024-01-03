@@ -1,0 +1,104 @@
+<h1>Welcome firstname + lastname</h1>
+<p>Please sign up using the form below. {{ signUpForm.status }}</p>
+
+<form [formGroup]="signUpForm">
+  <!-- First name field -->
+  <div class="mb-3">
+    <label for="firstName" class="form-label">First name</label>
+    <input
+      type="text"
+      id="firstName"
+      class="form-control"
+      formControlName="firstName"
+      required
+    />
+
+    <!-- First name error message -->
+    <div
+      *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)"
+      class="alert alert-danger"
+    >
+      <div *ngIf="firstName?.errors?.['required']">
+        A first name is required.
+      </div>
+    </div>
+  </div>
+
+  <!-- Last name field  -->
+  <div class="mb-3">
+    <label for="lastName" class="form-label">A last name</label>
+    <input
+      type="text"
+      id="lastName"
+      class="form-control"
+      formControlName="lastName"
+      required
+    />
+
+    <!-- Last name error message -->
+    <div
+      *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)"
+      class="alert alert-danger"
+    >
+      <div *ngIf="lastName?.errors?.['required']">Last name is required.</div>
+    </div>
+  </div>
+
+  <!-- Email field -->
+  <div class="mb-3">
+    <label for="email" class="form-label">E-mail address</label>
+    <input
+      type="email"
+      id="email"
+      class="form-control"
+      formControlName="email"
+      aria-describedby="emailHelp"
+      required
+    />
+
+    <!-- E-mail error message -->
+    <div
+      *ngIf="email?.invalid && (email?.dirty || email?.touched)"
+      class="alert alert-danger"
+    >
+      <div *ngIf="email?.errors?.['required']">
+        An email address is required.
+      </div>
+      <div *ngIf="email?.errors?.['email']">
+        Please fill in a valid email address.
+      </div>
+    </div>
+  </div>
+
+  <!-- Password field -->
+  <div class="mb-3">
+    <label for="password" class="form-label">Password</label>
+    <input
+      type="password"
+      id="password"
+      class="form-control"
+      formControlName="password"
+      required
+    />
+
+    <!-- Password error message -->
+    <div
+      *ngIf="password?.invalid && (password?.dirty || password?.touched)"
+      class="alert alert-danger"
+    >
+      <div *ngIf="password?.errors?.['required']">A password is required.</div>
+      <div *ngIf="password?.errors?.['minlength']">
+        Your password needs a minimal length of eight characters.
+      </div>
+      <div *ngIf="password?.errors?.['noFirstAndLastName']">
+        Your password may not contain your first or last name.
+      </div>
+      <div *ngIf="password?.errors?.['upperAndLowerCase']">
+        Your passord must contain both lower and upper case characters.
+      </div>
+    </div>
+  </div>
+
+  <!-- Submit form -->
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
