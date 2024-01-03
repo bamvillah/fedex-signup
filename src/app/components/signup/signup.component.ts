@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -18,7 +18,7 @@ import { PasswordValidator } from '../../shared/password.validator';
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
 })
-export class SignupComponent {
+export class SignupComponent implements OnInit {
   getPhotosUrl = 'https://jsonplaceholder.typicode.com/photos/';
   postUserUrl = 'https://jsonplaceholder.typicode.com/users';
 
@@ -39,10 +39,20 @@ export class SignupComponent {
       PasswordValidator.upperAndLowerCase,
     ]),
   });
-  fullName: string = 'test';
+  fullName: string = '';
   formSuccessful: boolean = false;
 
   constructor(private http: HttpClient) {}
+
+  ngOnInit() {
+    this.onFormChange();
+  }
+
+  onFormChange() {
+    this.signUpForm.valueChanges.subscribe((val) => {
+      this.fullName = `${val.firstName} ${val.lastName}`;
+    });
+  }
 
   get firstName() {
     return this.signUpForm.get('firstName');
@@ -58,6 +68,14 @@ export class SignupComponent {
 
   get password() {
     return this.signUpForm.get('password');
+  }
+
+  calculateFullName() {
+    return (
+      this.signUpForm.get('firstName')?.value +
+      ' ' +
+      this.signUpForm.get('lastName')?.value
+    );
   }
 
   onFormSubmit() {
