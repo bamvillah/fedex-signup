@@ -1,3 +1,16 @@
-.alert.alert-danger {
+@import "../../../../src/styles.scss";
+
+.alert.alert-danger,
+.alert.alert-success {
   margin-top: 10px;
+}
+
+.btn.btn-primary {
+  border-color: $fedex-purple;
+  background-color: $fedex-purple;
+
+  &:hover {
+    border-color: $fedex-orange;
+    background-color: $fedex-orange;
+  }
 }
