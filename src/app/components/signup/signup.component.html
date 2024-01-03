@@ -1,10 +1,12 @@
 <div class="row">
-  <h1 class="mt-3">Welcome {{ fullName }}</h1>
-  <p class="mb-4">Please sign up by filling the form below.</p>
+  <div class="col-6 offset-md-3 mt-3 mb-4">
+    <h1>Welcome {{ fullName }}</h1>
+    <p>Please sign up by filling the form below.</p>
+  </div>
 </div>
 
 <div class="row">
-  <div class="col-6">
+  <div class="col-6 offset-md-3">
     <form [formGroup]="signUpForm" (ngSubmit)="onFormSubmit()">
       <!-- First name field -->
       <div class="mb-3">
