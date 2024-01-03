@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import {
   FormControl,
@@ -6,6 +7,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { NewUser } from '../../models/new-user.model';
+import { Photos } from '../../models/photos.model';
 import { PasswordValidator } from '../../shared/password.validator';
 
 @Component({
@@ -16,8 +19,15 @@ import { PasswordValidator } from '../../shared/password.validator';
   styleUrl: './signup.component.scss',
 })
 export class SignupComponent {
-  constructor() {}
+  getPhotosUrl = 'https://jsonplaceholder.typicode.com/photos/';
+  postUserUrl = 'https://jsonplaceholder.typicode.com/users';
 
+  formPayload: NewUser = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    thumbnailUrl: '',
+  };
   signUpForm = new FormGroup({
     firstName: new FormControl('', [Validators.required]),
     lastName: new FormControl('', [Validators.required]),
@@ -29,6 +39,10 @@ export class SignupComponent {
       PasswordValidator.upperAndLowerCase,
     ]),
   });
+  fullName: string = 'test';
+  formSuccessful: boolean = false;
+
+  constructor(private http: HttpClient) {}
 
   get firstName() {
     return this.signUpForm.get('firstName');
@@ -44,5 +58,46 @@ export class SignupComponent {
 
   get password() {
     return this.signUpForm.get('password');
+  }
+
+  onFormSubmit() {
+    if (this.signUpForm.valid) {
+      const lastNameLength = this.signUpForm.value.lastName?.length;
+      const requestUrl = `${this.getPhotosUrl}${lastNameLength}`;
+
+      this.getPhotosRequest(requestUrl);
+    }
+    this.formSuccessful = false;
+    return;
+  }
+
+  getPhotosRequest(url: string) {
+    this.http.get<Photos>(url).subscribe({
+      next: (data) => {
+        this.formPayload = {
+          firstName: this.signUpForm.value.firstName,
+          lastName: this.signUpForm.value.lastName,
+          email: this.signUpForm.value.email,
+          thumbnailUrl: data.thumbnailUrl,
+        };
+        this.postNewUserData(this.formPayload);
+      },
+      error: (data) => {
+        console.log('error:', data);
+      },
+    });
+  }
+
+  postNewUserData(userData: NewUser) {
+    this.http.post<NewUser>(this.postUserUrl, userData).subscribe({
+      next: (data) => {
+        console.log('success:', data);
+        this.formSuccessful = true;
+      },
+      error: (data) => {
+        console.log('erorr:', data);
+        this.formSuccessful = false;
+      },
+    });
   }
 }
