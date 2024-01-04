@@ -167,16 +167,45 @@ describe('SignupComponent', () => {
     });
   });
 
-  it('should show a submit button', () => {
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('button')?.textContent).toContain('Submit');
-  });
+  describe('the sign up form', () => {
+    beforeEach(() => {
+      component.signUpForm.setValue({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+      });
+    });
 
-  it('should show a success message when the signup succeeded', () => {
-    component.formSuccessful = true;
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    const successMessage = compiled.querySelector('.alert.alert-success');
-    expect(successMessage.innerHTML).toBe(' Yay the form is sent! ');
+    it('should show four input elements in the form group', () => {
+      const formElement =
+        fixture.debugElement.nativeElement.querySelector('#signUpForm');
+      const inputElements = formElement.querySelectorAll('input');
+      expect(inputElements.length).toEqual(4);
+    });
+
+    it('should have initial values', () => {
+      const signUpFormGroup = component.signUpForm;
+      const signUpFormValues = {
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+      };
+      expect(signUpFormGroup.value).toEqual(signUpFormValues);
+    });
+
+    it('should show a submit button', () => {
+      const compiled = fixture.debugElement.nativeElement;
+      expect(compiled.querySelector('button')?.textContent).toContain('Submit');
+    });
+
+    it('should show a success message when the signup succeeded', () => {
+      component.formSuccessful = true;
+      fixture.detectChanges();
+      const compiled = fixture.debugElement.nativeElement;
+      const successMessage = compiled.querySelector('.alert.alert-success');
+      expect(successMessage.innerHTML).toBe(' Yay the form is sent! ');
+    });
   });
 });

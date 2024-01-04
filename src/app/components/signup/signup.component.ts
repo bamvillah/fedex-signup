@@ -39,20 +39,6 @@ export class SignupComponent implements OnInit {
       PasswordValidator.upperAndLowerCase,
     ]),
   });
-  fullName: string = '';
-  formSuccessful: boolean = false;
-
-  constructor(private http: HttpClient) {}
-
-  ngOnInit() {
-    this.onFormChange();
-  }
-
-  onFormChange() {
-    this.signUpForm.valueChanges.subscribe((val) => {
-      this.fullName = `${val.firstName} ${val.lastName}`;
-    });
-  }
 
   get firstName() {
     return this.signUpForm.get('firstName');
@@ -68,6 +54,21 @@ export class SignupComponent implements OnInit {
 
   get password() {
     return this.signUpForm.get('password');
+  }
+
+  fullName: string = '';
+  formSuccessful: boolean = false;
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit() {
+    this.onFormChange();
+  }
+
+  onFormChange() {
+    this.signUpForm.valueChanges.subscribe((val) => {
+      this.fullName = `${val.firstName} ${val.lastName}`;
+    });
   }
 
   onFormSubmit() {
