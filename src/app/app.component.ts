@@ -11,6 +11,4 @@ import { SignupComponent } from './components/signup/signup.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
-  title = 'fedex-signup';
-}
+export class AppComponent {}
