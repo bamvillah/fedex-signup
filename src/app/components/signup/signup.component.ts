@@ -70,23 +70,16 @@ export class SignupComponent implements OnInit {
     return this.signUpForm.get('password');
   }
 
-  calculateFullName() {
-    return (
-      this.signUpForm.get('firstName')?.value +
-      ' ' +
-      this.signUpForm.get('lastName')?.value
-    );
-  }
-
   onFormSubmit() {
     if (this.signUpForm.valid) {
       const lastNameLength = this.signUpForm.value.lastName?.length;
       const requestUrl = `${this.getPhotosUrl}${lastNameLength}`;
 
       this.getPhotosRequest(requestUrl);
+    } else {
+      this.formSuccessful = false;
+      return;
     }
-    this.formSuccessful = false;
-    return;
   }
 
   getPhotosRequest(url: string) {
